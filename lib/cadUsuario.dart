@@ -33,9 +33,9 @@ class _cadUsuarioState extends State<cadUsuario>{
   Future<void> sendData() async {
 
     var res = await http.post(phpurl, body: {
-      "Nome": txtNome.text,
-      "Email": txtEmail.text,
-      "Senha": txtSenha.text,
+      "nome": txtNome.text,
+      "email": txtEmail.text,
+      "senha": txtSenha.text,
     }); 
 
     if (res.statusCode == 200) {
