@@ -8,3 +8,10 @@ class API {
      return http.get(url);  
   }
 }
+
+class API2 {
+  static Future getVencidos() {
+    var url = baseUrl + "/selectVencidos.php";
+    return http.get(url);
+  }
+}

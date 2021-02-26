@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/produto.dart';
-import 'package:http/http.dart';
 import 'api.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 
 class lista extends StatefulWidget {
@@ -16,6 +15,7 @@ class lista extends StatefulWidget {
 class _listaState extends State {
 
   var produtos = new List<Produto>();
+
 
   _getProdutos() {
     API.getProdutos().then((response) {
@@ -42,10 +42,12 @@ class _listaState extends State {
         return AlertDialog(
           title: Text("Detalhes",
           ),
+
           content: Container(
             child: (
               Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -94,39 +96,58 @@ class _listaState extends State {
           title: Text("Produtos"),
           centerTitle: true,
         ),
-        body: 
+        body:
         ListView.builder(
-            itemCount: produtos.length,
-            itemBuilder: (context, index) {
-              return Card(
+        itemCount: produtos.length,
+        itemBuilder: (context, index) {          
+            return Dismissible(
+              key: UniqueKey(),
+              // Fornecemos uma função que diz ao app
+              // o que fazer depois que o item for arrastado
+              onDismissed: (direction) {
+                setState(() {
+                  var url="http://192.168.1.109/PHP/t1.php/";
+                     http.post(url, body: {
+                        'id': produtos[index].id.toString(),});
+                           _getProdutos();
+                         });
+                // Exibe o snackbar
+                Scaffold
+                    .of(context)
+                    .showSnackBar(
+                      SnackBar(
+                        content: 
+                        Text(
+                          produtos[index].nome.toString()+"foi removido"),
+                        ),
+                     );
+              },
+              // Exibe uma cor vermelha de fundo 
+              // quando o item for arrastado
+              background: Container(
+                color: Colors.red,
+                child: Align( 
+                   alignment: Alignment(-0.9, 0), 
+                   child: Icon(Icons.delete, color: Colors.white),
+                 ),
+                ),
+              child: Card(
                 child:ListTile(title: Text(produtos[index].nome,
                 textAlign: TextAlign.center,
               ),
-             // subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"     Preço: "+produtos[index].preco.toString()),
+              subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Preço: "+produtos[index].preco.toString(),
+              textAlign: TextAlign.center,
+              ),
                   onTap: (){
                   _detalhes(produtos[index]);
                   },
-                  trailing: Container(
-                      width: 50,
-                      child: Row(
-                          children: <Widget>[
-                            IconButton(
-                                icon: Icon(Icons.delete),
-                                color: Colors.black,
-                                onPressed: () {
-                                  setState(() {
-                                    var url="http://192.168.1.109/PHP/t1.php/";
-                                    http.post(url, body: {
-                                      'id': produtos[index].id.toString(),});
-                                    _getProdutos();
-                                  });
-                                }
-                            ),
-                          ]
-                      )
-                  )
-              ),
-             );   
-            }
-        ));
-  }}
+
+              )
+            ));
+        },
+      ));
+  }
+  }
+  
+
+  
