@@ -7,17 +7,17 @@ import 'package:http/http.dart' as http;
 
 
 
-class vencidos extends StatefulWidget {
+class falta extends StatefulWidget {
   @override
-  createState() => _vencidosState();
+  createState() => _faltaState();
 }
-class _vencidosState extends State {
+class _faltaState extends State {
 
   var produtos = new List<Produto>();
 
 
   _getProdutos() {
-    API2.getVencidos().then((response) {
+    API3.getFalta().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
@@ -44,14 +44,14 @@ class _vencidosState extends State {
           itemCount: produtos.length,
           itemBuilder: (context, index) {
             return Card(
-                    child:ListTile(title: Text(produtos[index].nome,
-                      textAlign: TextAlign.center,
-                    ),
-                      subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Vencido em: "+produtos[index].vencimento.toString(),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                );
+                child:ListTile(title: Text(produtos[index].nome,
+                  textAlign: TextAlign.center,
+                ),
+                  subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Desejavel: "+produtos[index].minimo.toString(),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+            );
           },
         ));
   }

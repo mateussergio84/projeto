@@ -9,6 +9,7 @@ class Produto {
   int codProd;
   int cod;
   String nome;
+  double total;
 
   Produto(
       {this.id,
@@ -20,7 +21,9 @@ class Produto {
         this.codUsu,
         this.codProd,
         this.cod,
-        this.nome});
+        this.nome,
+        this.total,
+      });
 
   Produto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -32,6 +35,7 @@ class Produto {
     codUsu = json['cod_usu'];
     codProd = json['cod_prod'];
     cod = json['cod'];
+    total = json['total'];
     nome = json['nome'];
   }
 
@@ -47,6 +51,9 @@ class Produto {
     data['cod_prod'] = this.codProd;
     data['cod'] = this.cod;
     data['nome'] = this.nome;
+    data['total'] = this.total;
     return data;
   }
 }
+
+

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/cadUsuario.dart';
 import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/login.dart';
+
+import 'list.dart';
 //import 'package:bottom_navigation_bar/home_screen.dart';
 
 class menu extends StatefulWidget {
@@ -14,7 +16,9 @@ class _menuState extends State<menu> {
   List<Widget> _widgetOptions = <Widget>[
     lista(),
     cadUsuario(),
+    list(),
     login(),
+    list(),
   ];
 
   void _onItemTap(int index) {

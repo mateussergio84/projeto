@@ -9,6 +9,14 @@ class API {
   }
 }
 
+class API3 {
+  static Future getFalta() {
+    var url = baseUrl + "/selectFalta.php";
+    return http.get(url);
+  }
+}
+
+
 class API2 {
   static Future getVencidos() {
     var url = baseUrl + "/selectVencidos.php";
