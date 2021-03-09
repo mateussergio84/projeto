@@ -4,7 +4,6 @@ import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/login.dart';
 
 import 'list.dart';
-//import 'package:bottom_navigation_bar/home_screen.dart';
 
 class menu extends StatefulWidget {
   @override

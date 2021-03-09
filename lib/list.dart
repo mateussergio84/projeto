@@ -3,6 +3,7 @@ import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/vencidos.dart';
 
 import 'falta.dart';
+import 'maximo.dart';
 
 
 
@@ -40,8 +41,7 @@ class _listState extends State<list>
     return TabBarView(controller: tabController, children: <Widget>[
       new vencidos(),
       new falta(),
-      new lista(),
-
+      new maximo(),
     ]);
   }
 

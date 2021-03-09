@@ -11,7 +11,6 @@ class cadUsuario extends StatefulWidget{
 }
 
 class _cadUsuarioState extends State<cadUsuario>{
-
     TextEditingController txtNome = TextEditingController();
     TextEditingController txtEmail = TextEditingController();
     TextEditingController txtSenha = TextEditingController();
@@ -40,12 +39,12 @@ class _cadUsuarioState extends State<cadUsuario>{
 
     if (res.statusCode == 200) {
       print(res.body); 
-      var data = json.decode(res.body); //decoding json to array
+      var data = json.decode(res.body);
       if(data["error"]){
-        setState(() { //refresh the UI when error is recieved from server
+        setState(() {
           sending = false;
           error = true;
-          msg = data["message"]; //error message from server
+          msg = data["message"];
         });
       }else{
         txtNome.text = "";
@@ -54,7 +53,7 @@ class _cadUsuarioState extends State<cadUsuario>{
 
         setState(() {
           sending = false;
-          success = true; //mark success and refresh UI with setState
+          success = true;
         });
       }
 
@@ -73,11 +72,10 @@ class _cadUsuarioState extends State<cadUsuario>{
     return Scaffold(
       appBar: AppBar(
           title:Text("Estoque - Cadastro"),
-          backgroundColor:Colors.indigo[400]
+          backgroundColor:Colors.blue[400]
       ), 
 
-      body: SingleChildScrollView( //enable scrolling, when keyboard appears,
-        // hight becomes small, so prevent overflow
+      body: SingleChildScrollView(
           child:Container(
               padding: EdgeInsets.all(20),
               child: Column(children: <Widget>[
@@ -119,14 +117,14 @@ class _cadUsuarioState extends State<cadUsuario>{
                     child:SizedBox(
                         width: double.infinity,
                         child:RaisedButton(
-                          onPressed:(){ //if button is pressed, setstate sending = true, so that we can show "sending..."
+                          onPressed:(){
                             setState(() {
                               sending = true;
                             });
                             sendData();
                           },
                           child: Text(
-                            sending?"Sending...":"SEND DATA",
+                            sending?"Sending...":"Cadastrar",
                           ),
                           color: Colors.blueAccent,
                           colorBrightness: Brightness.dark,

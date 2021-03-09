@@ -21,5 +21,11 @@ class API2 {
   static Future getVencidos() {
     var url = baseUrl + "/selectVencidos.php";
     return http.get(url);
+  }}
+
+class API4 {
+  static Future geMaximo() {
+    var url = baseUrl + "/select_maximo.php";
+    return http.get(url);
   }
 }

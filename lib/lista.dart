@@ -22,6 +22,7 @@ class _listaState extends State {
       setState(() {
         Iterable list = json.decode(response.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
+
       });
     });
   }
@@ -81,7 +82,7 @@ class _listaState extends State {
           actions: <Widget>[
             FlatButton(onPressed: (){
               Navigator.of(context).pop();
-            }, child: Text('Volta'))
+            }, child: Text('Voltar'))
           ],
         );
       },
@@ -102,8 +103,6 @@ class _listaState extends State {
         itemBuilder: (context, index) {          
             return Dismissible(
               key: UniqueKey(),
-              // Fornecemos uma função que diz ao app
-              // o que fazer depois que o item for arrastado
               onDismissed: (direction) {
                 setState(() {
                   var url="http://192.168.1.109/PHP/t1.php/";
@@ -111,14 +110,13 @@ class _listaState extends State {
                         'id': produtos[index].id.toString(),});
                            _getProdutos();
                          });
-                // Exibe o snackbar
                 Scaffold
                     .of(context)
                     .showSnackBar(
                       SnackBar(
                         content: 
                         Text(
-                          produtos[index].nome.toString()+"foi removido"),
+                          produtos[index].nome.toString()+" foi excluido"),
                         ),
                      );
               },
@@ -145,7 +143,8 @@ class _listaState extends State {
               )
             ));
         },
-      ));
+      ),
+    );
   }
   }
   

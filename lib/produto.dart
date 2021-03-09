@@ -2,6 +2,7 @@ class Produto {
   int id;
   int quantidade;
   int minimo;
+  int maximo;
   num preco;
   String vencimento;
   String entrada;
@@ -15,6 +16,7 @@ class Produto {
       {this.id,
         this.quantidade,
         this.minimo,
+        this.maximo,
         this.preco,
         this.vencimento,
         this.entrada,
@@ -29,6 +31,7 @@ class Produto {
     id = json['id'];
     quantidade = json['quantidade'];
     minimo = json['minimo'];
+    maximo = json['maximo'];
     preco = json['preco'];
     vencimento = json['vencimento'];
     entrada = json['entrada'];
@@ -44,6 +47,7 @@ class Produto {
     data['id'] = this.id;
     data['quantidade'] = this.quantidade;
     data['minimo'] = this.minimo;
+    data['maximo'] = this.maximo;
     data['preco'] = this.preco;
     data['vencimento'] = this.vencimento;
     data['entrada'] = this.entrada;

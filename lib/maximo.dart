@@ -3,21 +3,20 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/produto.dart';
 import 'api.dart';
-import 'package:http/http.dart' as http;
 
 
 
-class falta extends StatefulWidget {
+class maximo extends StatefulWidget {
   @override
-  createState() => _faltaState();
+  createState() => _maximoState();
 }
-class _faltaState extends State {
+class _maximoState extends State {
 
   var produtos = new List<Produto>();
 
 
   _getProdutos() {
-    API3.getFalta().then((response) {
+    API4.geMaximo().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
@@ -48,7 +47,7 @@ class _faltaState extends State {
                   textAlign: TextAlign.center
                   ,
                 ),
-                  subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Desejavel: "+produtos[index].minimo.toString(),
+                  subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Maximo: "+produtos[index].maximo.toString(),
                     textAlign: TextAlign.center,
                   ),
                 )
