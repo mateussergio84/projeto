@@ -9,9 +9,17 @@ class API {
   }
 }
 
+
 class API3 {
   static Future getFalta() {
     var url = baseUrl + "/selectFalta.php";
+    return http.get(url);
+  }
+}
+
+class APIT {
+  static Future getTotal() {
+    var url = baseUrl + "/t0.php";
     return http.get(url);
   }
 }
