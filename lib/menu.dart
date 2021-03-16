@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/cadUsuario.dart';
 import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/login.dart';
+import 'package:flutter_application_1/total.dart';
 
+import 'cad.dart';
 import 'list.dart';
 
 class menu extends StatefulWidget {
@@ -14,10 +16,12 @@ class _menuState extends State<menu> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     lista(),
-    cadUsuario(),
+    cad(),
     list(),
     login(),
-    list(),
+    login(),
+    //total(),
+
   ];
 
   void _onItemTap(int index) {

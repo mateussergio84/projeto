@@ -54,6 +54,7 @@ class _listState extends State<list>
           flexibleSpace: SafeArea(
             child: getTabBar(),
           ),
+          automaticallyImplyLeading: false,
         ),
         body: getTabBarPages());
   }

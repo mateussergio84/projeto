@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/menu.dart';
 import 'package:http/http.dart' as http;
 
 import 'cadUsuario.dart';
@@ -42,6 +43,13 @@ class _loginState extends State<login> {
             error = false;
             showprogress = false;
           });
+          menu();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>menu() ),
+          );
+          _email.text = "";
+          _senha.text = "";
           //mudar tela
         }else{
           showprogress = false;
@@ -88,7 +96,7 @@ class _loginState extends State<login> {
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
                 colors: [ Colors.lightBlue,Colors.lightBlueAccent,
-                  Colors.indigo, Colors.indigoAccent,
+                  Colors.blue[800], Colors.blue[700],
                 ],
               ),
             ),
@@ -161,7 +169,7 @@ class _loginState extends State<login> {
                         backgroundColor: Colors.blueGrey,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
                       ),
-                    ):Text("LOGIN NOW", style: TextStyle(fontSize: 20),),
+                    ):Text("LOGIN", style: TextStyle(fontSize: 20),),
                     colorBrightness: Brightness.dark,
                     color: Colors.blue,
                     shape: RoundedRectangleBorder(

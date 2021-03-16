@@ -15,7 +15,7 @@ class lista extends StatefulWidget {
 class _listaState extends State {
 
   var produtos = new List<Produto>();
-
+  var i;
 
   _getProdutos() {
     API.getProdutos().then((response) {
@@ -56,7 +56,7 @@ class _listaState extends State {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text('Codigo: '+produto.codProd.toString())
+                    child: Text('Codigo: '+produto.cod.toString())
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -81,9 +81,147 @@ class _listaState extends State {
          ),
           actions: <Widget>[
             FlatButton(onPressed: (){
+              _editar(i);
+            }, child: Text('Editar')),
+            FlatButton(onPressed: (){
               Navigator.of(context).pop();
-            }, child: Text('Voltar'))
+            }, child: Text('Voltar')),
           ],
+        );
+      },
+    );
+  }
+
+
+
+    void _editar(Produto produto) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+
+        TextEditingController txtQuantidade = TextEditingController(text: produto.quantidade.toString());
+        TextEditingController txtPreco = TextEditingController(text: produto.preco.toString());
+        TextEditingController txtMinimo = TextEditingController(text: produto.minimo.toString());
+        TextEditingController txtMaximo = TextEditingController(text: produto.maximo.toString());
+        TextEditingController txtValidade = TextEditingController(text: produto.vencimento.toString());
+
+        Future<void> update() async {
+          String phpurl = "http://192.168.1.109/PHP/update.php";
+
+
+          var res = await http.post(phpurl, body: {
+            "id": produto.id.toString(),
+            "quantidade": txtQuantidade.text,
+            "preco": txtPreco.text,
+            "minimo": txtMinimo.text,
+            "maximo": txtMaximo.text,
+            "vencimento": txtValidade.text,
+          });
+        }
+
+
+        Future edit() async {
+          return await http.post(
+            "http://192.168.1.109/PHP/update.php",
+            body: {
+              "id": produto.id.toString(),
+              "quantidade": txtQuantidade.text,
+              "preco": txtPreco.text,
+              "minimo": txtMinimo.text,
+              "maximo": txtMaximo.text,
+              "vencimento": txtValidade.text,
+            },
+          );
+        }
+        return AlertDialog(
+          title: Text("Detalhes",
+          ),
+          content: SingleChildScrollView(
+        child: Container(
+            child: (
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: txtQuantidade,
+                      decoration: InputDecoration(
+                        labelText:"Quantidade:",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    )
+                ),
+                    Container(
+                        padding: const EdgeInsets.all(10),
+                        child: TextField(
+                          controller: txtPreco,
+                          decoration: InputDecoration(
+                            labelText:"Preço:",
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.number,
+                        )
+                    ),
+
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: txtMinimo,
+                      decoration: InputDecoration(
+                        labelText:"Minimo:",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    )
+                ),
+
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: txtMaximo,
+                      decoration: InputDecoration(
+                        labelText:"Maximo:",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    )
+                ),
+
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: txtValidade,
+                      decoration: InputDecoration(
+                        labelText:"Vencimento:",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.datetime,
+                    )
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FlatButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('Cancelar')),
+            FlatButton(onPressed: (){
+              update();
+              _getProdutos();
+              Navigator.of(context).pop();
+
+            }, child: Text('Salvar')),
+                    ],
+                  ),
+                ),
+                  ]
+                 )
+                )
+            ),
+          ),
         );
       },
     );
@@ -120,8 +258,6 @@ class _listaState extends State {
                         ),
                      );
               },
-              // Exibe uma cor vermelha de fundo 
-              // quando o item for arrastado
               background: Container(
                 color: Colors.red,
                 child: Align( 
@@ -137,7 +273,9 @@ class _listaState extends State {
               textAlign: TextAlign.center,
               ),
                   onTap: (){
+                  i = produtos[index];
                   _detalhes(produtos[index]);
+                  _getProdutos();
                   },
 
               )
@@ -146,7 +284,7 @@ class _listaState extends State {
       ),
     );
   }
-  }
+}
   
 
   
