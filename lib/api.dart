@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-const baseUrl = "http://192.168.1.109/PHP/";
+const baseUrl = "http://192.168.1.109:80/PHP/";
 class API {
   static Future getProdutos() {
      var url = baseUrl + "/selectProdutos.php";
