@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/cadUsuario.dart';
 import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/login.dart';
-import 'package:flutter_application_1/total.dart';
 
 import 'cad.dart';
 import 'list.dart';

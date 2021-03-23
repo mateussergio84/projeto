@@ -50,7 +50,6 @@ class _cadUsuarioState extends State<cadUsuario>{
         txtNome.text = "";
         txtEmail.text = "";
         txtSenha.text = "";
-
         setState(() {
           sending = false;
           success = true;

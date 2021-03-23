@@ -19,7 +19,7 @@ class API3 {
 
 class APIT {
   static Future getTotal() {
-    var url = baseUrl + "/t0.php";
+    var url = baseUrl + "/total.php";
     return http.get(url);
   }
 }
