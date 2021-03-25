@@ -21,6 +21,19 @@ class APIT {
   static Future getTotal() {
     var url = baseUrl + "/total.php";
     return http.get(url);
+  }red
+}
+class APIM {
+  static Future getTotal() {
+    var url = baseUrl + "/mes.php";
+    return http.get(url);
+  }
+}
+
+class APIS {
+  static Future getTotal() {
+    var url = baseUrl + "/semana.php";
+    return http.get(url);
   }
 }
 

@@ -4,7 +4,9 @@ import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/login.dart';
 
 import 'cad.dart';
+import 'gastos.dart';
 import 'list.dart';
+import 'listas_gastos.dart';
 
 class menu extends StatefulWidget {
   @override
@@ -18,8 +20,7 @@ class _menuState extends State<menu> {
     cad(),
     list(),
     login(),
-    login(),
-    //total(),
+    listas_gastos(),
 
   ];
 

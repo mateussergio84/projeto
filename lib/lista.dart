@@ -2,9 +2,10 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/produto.dart';
 import 'api.dart';
 import 'package:http/http.dart' as http;
+
+import 'produto.dart';
 
 
 
@@ -269,7 +270,7 @@ class _listaState extends State {
                 child:ListTile(title: Text(produtos[index].nome,
                 textAlign: TextAlign.center,
               ),
-              subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Preço: "+produtos[index].preco.toString(),
+              subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Preço: R\$"+produtos[index].preco.toString(),
               textAlign: TextAlign.center,
               ),
                   onTap: (){

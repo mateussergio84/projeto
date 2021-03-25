@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/produto.dart';
 import 'api.dart';
+import 'package:http/http.dart' as http;
+
 
 
 class gastos_mes extends StatefulWidget {
@@ -12,11 +15,10 @@ class gastos_mes extends StatefulWidget {
 class _gastos_mesState extends State {
 
   var produtos = new List<Produto>();
-  num total = 0;
 
 
   _getProdutos() {
-    APIT.getTotal().then((response) {
+    APIM.getTotal().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
@@ -28,10 +30,11 @@ class _gastos_mesState extends State {
     super.initState();
     _getProdutos();
   }
-
   dispose() {
     super.dispose();
   }
+
+
 
 
   @override
@@ -42,12 +45,11 @@ class _gastos_mesState extends State {
           itemCount: produtos.length,
           itemBuilder: (context, index) {
             return Card(
-                child: ListTile(title: Text(produtos[index].nome,
-                  textAlign: TextAlign.center,
+                child:ListTile(title: Text(produtos[index].nome,
+                  textAlign: TextAlign.center
+                  ,
                 ),
-                  subtitle: Text(
-                    "Quantidade: " + produtos[index].quantidade.toString() +
-                        "  Total: " + produtos[index].total.toString(),
+                  subtitle: Text("Preco: R\$" +produtos[index].preco.toString() +"   Total: R\$"+produtos[index].total.toString(),
                     textAlign: TextAlign.center,
                   ),
                 )

@@ -16,7 +16,7 @@ class _gastos_semanaState extends State {
 
 
   _getProdutos() {
-    APIT.getTotal().then((response) {
+    APIS.getTotal().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
@@ -46,8 +46,8 @@ class _gastos_semanaState extends State {
                   textAlign: TextAlign.center,
                 ),
                   subtitle: Text(
-                    "Quantidade: " + produtos[index].quantidade.toString() +
-                        "  Total: " + produtos[index].total.toString(),
+                    "Preço: R\$" + produtos[index].quantidade.toString() +
+                        "  Total: R\$" + produtos[index].total.toString(),
                     textAlign: TextAlign.center,
                   ),
                 )

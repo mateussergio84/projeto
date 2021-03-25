@@ -3,25 +3,24 @@ class Produto {
   int cod;
   String nome;
   int quantidade;
-  num preco;
+  double preco;
   int minimo;
   int maximo;
   String vencimento;
   String data;
-  double total;
+  num total;
 
   Produto(
       {this.id,
-        this.cod,
-        this.nome,
-        this.quantidade,
-        this.preco,
-        this.minimo,
-        this.maximo,
-        this.vencimento,
-        this.data,
-        this.total
-      });
+      this.cod,
+      this.nome,
+      this.quantidade,
+      this.preco,
+      this.minimo,
+      this.maximo,
+      this.vencimento,
+      this.data,
+      this.total});
 
   Produto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,3 +50,4 @@ class Produto {
     return data;
   }
 }
+
