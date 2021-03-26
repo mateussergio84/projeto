@@ -34,6 +34,95 @@ class _faltaState extends State {
     super.dispose();
   }
 
+  void _editar(Produto produto) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+
+        TextEditingController txtQuantidade = TextEditingController(text: produto.quantidade.toString());
+        TextEditingController txtMinimo = TextEditingController(text: produto.minimo.toString());
+
+        Future<void> update() async {
+          String phpurl = "http://192.168.1.109/PHP/update.php";
+
+
+          var res = await http.post(phpurl, body: {
+            "id": produto.id.toString(),
+            "quantidade": txtQuantidade.text,
+            "minimo": txtMinimo.text,
+          });
+        }
+
+
+        Future edit() async {
+          return await http.post(
+            "http://192.168.1.109/PHP/updateMin.php",
+            body: {
+              "id": produto.id.toString(),
+              "quantidade": txtQuantidade.text,
+              "minimo": txtMinimo.text,
+            },
+          );
+        }
+        return AlertDialog(
+          title: Text(produto.nome,
+          ),
+          content: SingleChildScrollView(
+        child: Container(
+            child: (
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: txtQuantidade,
+                      decoration: InputDecoration(
+                        labelText:"Quantidade:",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    )
+                ),
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: txtMinimo,
+                      decoration: InputDecoration(
+                        labelText:"Minimo:",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    )
+                ),
+
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FlatButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('Cancelar')),
+            FlatButton(onPressed: (){
+              edit();
+              _getProdutos();
+              Navigator.of(context).pop();
+
+            }, child: Text('Salvar')),
+                    ],
+                  ),
+                ),
+                  ]
+                 )
+                )
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 
 
 
@@ -52,6 +141,9 @@ class _faltaState extends State {
                   subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Desejavel: "+produtos[index].minimo.toString(),
                     textAlign: TextAlign.center,
                   ),
+                  onTap: (){
+                    _editar(produtos[index]);
+                  },
                 )
             );
           },

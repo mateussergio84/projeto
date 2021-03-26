@@ -38,6 +38,7 @@ class _listaState extends State {
 
 
   void _detalhes(Produto produto) {
+    _getProdutos();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -135,7 +136,7 @@ class _listaState extends State {
           );
         }
         return AlertDialog(
-          title: Text("Detalhes",
+          title: Text(produto.nome,
           ),
           content: SingleChildScrollView(
         child: Container(
