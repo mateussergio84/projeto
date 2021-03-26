@@ -17,11 +17,32 @@ class API3 {
   }
 }
 
+class APIG {
+  static Future getGastos() {
+    var url = baseUrl + "/itens.php";
+    return http.get(url);
+  }
+}
+
+class APIGm{
+  static Future getGastos() {
+    var url = baseUrl + "/itens_mes.php";
+    return http.get(url);
+  }
+}
+
+class APIGs {
+  static Future getGastos() {
+    var url = baseUrl + "/itens_semana.php";
+    return http.get(url);
+  }
+}
+
 class APIT {
   static Future getTotal() {
     var url = baseUrl + "/total.php";
     return http.get(url);
-  }red
+  }
 }
 class APIM {
   static Future getTotal() {
