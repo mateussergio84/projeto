@@ -13,7 +13,7 @@ class gastos extends StatefulWidget {
 
 }
 class _gastosState extends State {
-var produtos = new List<Produto>();
+  var produtos = new List<Produto>();
   var gasto = List<Gasto>();
   num total = 0;
 
@@ -28,7 +28,7 @@ var produtos = new List<Produto>();
   }
 
   _getGastos() {
-    APIG.getGastos().then((response) {
+    APIGs.getGastos().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         gasto = list.map((model) => Gasto.fromJson(model)).toList();
@@ -78,7 +78,7 @@ var produtos = new List<Produto>();
           itemBuilder: (context, index) {
             return 
             Text("Gastos R\$"+gasto[index].total.toString()+
-                  " em "+gasto[index].itens.toString()+" itens",
+                  " \nem "+gasto[index].itens.toString()+" itens",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   textAlign: TextAlign.center,
                 );
