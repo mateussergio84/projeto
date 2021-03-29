@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Barcode/barcode.dart';
 import 'package:flutter_application_1/cadUsuario.dart';
 import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/login.dart';
@@ -7,6 +8,8 @@ import 'cad.dart';
 import 'gastos.dart';
 import 'list.dart';
 import 'listas_gastos.dart';
+import 'Barcode/home_page.dart';
+import 'Barcode/barcode.dart';
 
 class menu extends StatefulWidget {
   @override
@@ -19,7 +22,7 @@ class _menuState extends State<menu> {
     lista(),
     cad(),
     list(),
-    login(),
+    barcode(),
     listas_gastos(),
 
   ];

@@ -3,7 +3,7 @@ class Produto {
   int cod;
   String nome;
   int quantidade;
-  double preco;
+  num preco;
   int minimo;
   int maximo;
   String vencimento;

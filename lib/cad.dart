@@ -142,7 +142,7 @@ class _cadState extends State<cad>{
                     child: TextField(
                       controller: txtPreco,
                       decoration: InputDecoration(
-                        labelText:"Precp:",
+                        labelText:"Preço:",
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.number,

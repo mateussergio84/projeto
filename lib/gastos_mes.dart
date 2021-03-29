@@ -6,7 +6,6 @@ import 'Gasto.dart';
 import 'api.dart';
 
 
-
 class gastos_mes extends StatefulWidget {
   @override
   createState() => _gastos_mesState();
@@ -27,7 +26,7 @@ var produtos = new List<Produto>();
   }
 
   _getGastos() {
-    APIGm.getGastos().then((response) {
+    APIG.getGastos().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         gasto = list.map((model) => Gasto.fromJson(model)).toList();

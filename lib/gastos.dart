@@ -28,7 +28,7 @@ class _gastosState extends State {
   }
 
   _getGastos() {
-    APIGs.getGastos().then((response) {
+    APIG.getGastos().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         gasto = list.map((model) => Gasto.fromJson(model)).toList();
@@ -78,7 +78,7 @@ class _gastosState extends State {
           itemBuilder: (context, index) {
             return 
             Text("Gastos R\$"+gasto[index].total.toString()+
-                  " \nem "+gasto[index].itens.toString()+" itens",
+                  " em "+gasto[index].itens.toString()+" itens",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   textAlign: TextAlign.center,
                 );

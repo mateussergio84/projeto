@@ -94,7 +94,7 @@ class _listaState extends State {
     );
   }
 
-
+  
 
     void _editar(Produto produto) {
     showDialog(
