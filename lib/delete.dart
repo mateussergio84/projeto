@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/busca.dart';
+import 'package:flutter_application_1/cad.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
 
 class delete extends StatefulWidget {
+
   @override
   _deleteState createState() => _deleteState();
 }
@@ -26,11 +28,17 @@ class _deleteState extends State<delete> {
         .listen((barcode) => print(barcode));
   }
 
-  void delete(){
+
+  Future<void> delete() async {
     var url="http://192.168.1.109/PHP/codigo.php/";
-    http.post(url, body: {
+    var res = await http.post(url, body: {
       'cod': barcodeScanRes,},
     );
+    if (res.statusCode == 200) {
+      print(res.body);
+    }else{
+      print('cadastrado com sucesso');
+      }
   }
 
 
@@ -40,8 +48,15 @@ class _deleteState extends State<delete> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
-      //delete();
+      delete();
       print(barcodeScanRes);
+        Scaffold
+            .of(context)
+            .showSnackBar(
+            SnackBar(
+              content:
+              Text("Produto com codigo"+barcodeScanRes+" foi excluido com sucesso"),
+            ));
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -73,19 +88,15 @@ class _deleteState extends State<delete> {
                             'assets/icon.png',
                             width: 90,
                           ),
-                          label: Text('Ler Código de Barras',
+                          label: Text('Scanear Código',
                             style: TextStyle(fontSize: 25, color: Colors.black),
                           ),
                           onPressed: (){
                             scanBarcodeNormal();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>busca(cod: barcodeScanRes,) ));
+                            String cod = barcodeScanRes;
                           },
                   //        onPressed: () => scanBarcodeNormal(),
                         ),
-                        Text('Codigo : $_scanBarcode\n',
-                            style: TextStyle(fontSize: 20))
                       ]));
             })));
   }

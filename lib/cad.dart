@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/delete.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/services.dart';
 
-import 'cadUsuario.dart';
+
 
 class cad extends StatefulWidget{
   @override
@@ -26,6 +29,7 @@ class _cadState extends State<cad>{
 
   String phpurl = "http://192.168.1.109/PHP/cad.php";
 
+
   @override
   void initState() {
     error = false;
@@ -33,6 +37,32 @@ class _cadState extends State<cad>{
     success = false;
     msg = "";
     super.initState();
+  }
+  String barcodeScanRes;
+  String _scanBarcode;
+
+
+  Future<void> scanBarcodeNormal() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.BARCODE);
+
+      print(barcodeScanRes);
+      txtCod = TextEditingController(text: barcodeScanRes);
+
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
   }
 
   Future<void> sendData() async {
@@ -57,6 +87,14 @@ class _cadState extends State<cad>{
           msg = data["message"];
         });
       }else{
+        Scaffold
+            .of(context)
+            .showSnackBar(
+          SnackBar(
+            content:
+            Text("cadastrado com sucesso"),
+          ),
+        );
         txtNome.text = "";
         txtCod.text = "";
         txtQuantidade.text ="";
@@ -87,7 +125,6 @@ class _cadState extends State<cad>{
           title:Text("Estoque - Cadastro"),
           backgroundColor:Colors.blue[400],
         automaticallyImplyLeading: false,
-
       ),
 
       body: SingleChildScrollView(
@@ -104,10 +141,8 @@ class _cadState extends State<cad>{
                         suffixIcon: IconButton(
                           icon: Icon(Icons.camera_alt_outlined),
                           onPressed: (){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>cadUsuario()));
-                          },
+                            scanBarcodeNormal();
+                          }
                         )
                       ),
                       keyboardType: TextInputType.number,

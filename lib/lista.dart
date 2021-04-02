@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/menu.dart';
 import 'api.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,6 +43,7 @@ class _listaState extends State {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        _getProdutos();
         return AlertDialog(
           title: Text("Detalhes",
           ),
@@ -213,7 +215,11 @@ class _listaState extends State {
             FlatButton(onPressed: (){
               update();
               _getProdutos();
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>menu() ),
+              );
 
             }, child: Text('Salvar')),
                     ],
