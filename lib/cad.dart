@@ -97,7 +97,7 @@ class _cadState extends State<cad>{
         );
         txtNome.text = "";
         txtCod.text = "";
-        txtQuantidade.text ="";
+        txtQuantidade.text = "";
         txtPreco.text = "";
         txtMinimo.text = "";
         txtMaximo.text = "";
@@ -139,7 +139,9 @@ class _cadState extends State<cad>{
                         labelText:"Codigo:",
                         border: OutlineInputBorder(),
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.camera_alt_outlined),
+                          icon:Image.asset(
+                            'assets/icon.png',
+                          ),
                           onPressed: (){
                             scanBarcodeNormal();
                           }

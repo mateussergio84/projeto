@@ -36,11 +36,25 @@ class _deleteState extends State<delete> {
     );
     if (res.statusCode == 200) {
       print(res.body);
-    }else{
-      print('cadastrado com sucesso');
-      }
+      Scaffold
+            .of(context)
+            .showSnackBar(
+            SnackBar(
+              content:
+              Text("Produto excluido com sucesso"),
+            ));
+    }
+    else{
+      Scaffold
+            .of(context)
+            .showSnackBar(
+            SnackBar(
+              content:
+              Text("Produto não encontrado"),
+            ));
+    }
   }
-
+  String msg;
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> scanBarcodeNormal() async {
@@ -50,15 +64,23 @@ class _deleteState extends State<delete> {
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
       delete();
       print(barcodeScanRes);
-        Scaffold
+      Scaffold
             .of(context)
             .showSnackBar(
             SnackBar(
               content:
-              Text("Produto com codigo"+barcodeScanRes+" foi excluido com sucesso"),
+              Text("Codigo "+barcodeScanRes),
+              duration: Duration(seconds: 2),
             ));
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
+      Scaffold
+            .of(context)
+            .showSnackBar(
+            SnackBar(
+              content:
+              Text("Produto não encontrado"),
+            ));
     }
 
     // If the widget was removed from the tree while the asynchronous platform

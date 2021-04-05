@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/busca.dart';
 import 'package:flutter_application_1/cadUsuario.dart';
 import 'package:flutter_application_1/delete.dart';
 import 'package:flutter_application_1/lista.dart';
@@ -17,10 +18,10 @@ class _menuState extends State<menu> {
   List<Widget> _widgetOptions = <Widget>[
     lista(),
     cad(),
+    busca(),
     list(),
     delete(),
     listas_gastos(),
-
   ];
 
   void _onItemTap(int index) {
@@ -53,6 +54,14 @@ class _menuState extends State<menu> {
             ),
             title: Text(
               'Add',
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search_sharp
+            ),
+            title: Text(
+              'Busca',
             ),
           ),
           BottomNavigationBarItem(
