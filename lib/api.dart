@@ -11,6 +11,14 @@ class API {
   }
 }
 
+class APII {
+  static Future getProdutos() {
+    var url = baseUrl + "/y.php";
+    return http.get(url);
+  }
+}
+
+
 class APIP {
   static Future getProdutos() {
     var url = baseUrl + "/select.php";
@@ -29,6 +37,13 @@ class API3 {
 class APIG {
   static Future getGastos() {
     var url = baseUrl + "/itens.php";
+    return http.get(url);
+  }
+}
+
+class APIC {
+  static Future getCompras() {
+    var url = baseUrl + "/selectCompras.php";
     return http.get(url);
   }
 }

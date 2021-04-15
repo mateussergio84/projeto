@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/busca.dart';
-import 'package:flutter_application_1/cadUsuario.dart';
-import 'package:flutter_application_1/delete.dart';
 import 'package:flutter_application_1/lista.dart';
 
 import 'cad.dart';
@@ -20,7 +18,6 @@ class _menuState extends State<menu> {
     cad(),
     busca(),
     list(),
-    delete(),
     listas_gastos(),
   ];
 
@@ -70,14 +67,6 @@ class _menuState extends State<menu> {
             ),
             title: Text(
               'Listas',
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.delete,
-            ),
-            title: Text(
-              'Remover',
             ),
           ),
           BottomNavigationBarItem(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/busca.dart';
+import 'package:flutter_application_1/compras.dart';
 import 'package:flutter_application_1/login.dart';
 
 import 'cad.dart';

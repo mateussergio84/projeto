@@ -17,7 +17,7 @@ var produtos = new List<Produto>();
 
 
  _getProdutos() {
-    API.getProdutos().then((response) {
+    APIM.getTotal().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
@@ -26,7 +26,7 @@ var produtos = new List<Produto>();
   }
 
   _getGastos() {
-    APIG.getGastos().then((response) {
+    APIGm.getGastos().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         gasto = list.map((model) => Gasto.fromJson(model)).toList();

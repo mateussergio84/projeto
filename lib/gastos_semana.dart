@@ -26,7 +26,7 @@ class _gastos_semanaState extends State {
   }
 
   _getGastos() {
-    APIG.getGastos().then((response) {
+    APIGs.getGastos().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         gasto = list.map((model) => Gasto.fromJson(model)).toList();

@@ -43,7 +43,6 @@ class _loginState extends State<login> {
             error = false;
             showprogress = false;
           });
-          menu();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) =>menu() ),
@@ -51,6 +50,7 @@ class _loginState extends State<login> {
           _email.text = "";
           _senha.text = "";
           //mudar tela
+
         }else{
           showprogress = false;
           error = true;

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/delete.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/services.dart';
-
-
+import 'pesquisa.dart';
 
 class cad extends StatefulWidget{
   @override
@@ -24,10 +22,28 @@ class _cadState extends State<cad>{
   TextEditingController txtMaximo = TextEditingController();
   TextEditingController txtValidade = TextEditingController();
 
+  void fetchProduto() async {
+  final response =
+      await http.get('https://barcode.monster/api/'+barcodeScanRes);
+
+  if (response.statusCode == 200) {
+    var produtos = pesquisa.fromJson(jsonDecode(response.body));
+    String descricao = produtos.description.toString();
+    if(descricao.length >=23){
+      descricao = descricao.substring(0, descricao.length - 23);
+    }
+    txtNome = TextEditingController(text: descricao);
+    print(descricao);
+  } else {
+    throw Exception('Erro');
+  }
+}
+
   bool error, sending, success;
   String msg;
 
   String phpurl = "http://192.168.1.109/PHP/cad.php";
+
 
 
   @override
@@ -47,17 +63,23 @@ class _cadState extends State<cad>{
     try {
        barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
-
-      print(barcodeScanRes);
-      txtCod = TextEditingController(text: barcodeScanRes);
-
+        txtCod = TextEditingController(text: barcodeScanRes);
+        print(barcodeScanRes);
+        final response = await http.get('https://barcode.monster/api/'+barcodeScanRes);
+          if (response.statusCode == 200) {
+            var produtos = pesquisa.fromJson(jsonDecode(response.body));
+            String descricao = produtos.description.toString();
+            if(descricao.length >=23){
+              descricao = descricao.substring(0, descricao.length - 23);
+            }
+            txtNome = TextEditingController(text: descricao);
+            print(descricao);
+          } else {
+            throw Exception('Erro');
+          }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {

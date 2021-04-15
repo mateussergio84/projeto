@@ -6,11 +6,11 @@ import 'package:flutter_application_1/produto.dart';
 import 'api.dart';
 import 'package:http/http.dart' as http;
 
-class vencidos extends StatefulWidget {
+class compras extends StatefulWidget {
   @override
-  createState() => _vencidosState();
+  createState() => _comprasState();
 }
-class _vencidosState extends State {
+class _comprasState extends State {
 
   var produtos = new List<Produto>();
 
@@ -20,7 +20,7 @@ class _vencidosState extends State {
 
 
   _getProdutos() {
-    API2.getVencidos().then((response) {
+    APIC.getCompras().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
@@ -78,14 +78,20 @@ class _vencidosState extends State {
                         child:ListTile(title: Text(produtos[index].nome,
                           textAlign: TextAlign.center,
                         ),
-                          subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  vencido em : "+produtos[index].vencimento.toString(),
-                            textAlign: TextAlign.center,
-                          ),
                         )
                     ));
               },
             ),
+            flex: 12,
           ),
+          Expanded(child: RaisedButton(onPressed: (){
+            var url = "http://localhost/PHP/del.php";
+            http.get(url);
+            }, child: Text('Zerar lista'),
+            color: Colors.blueAccent,
+            colorBrightness: Brightness.dark,
+            ),
+            )
         ],),
     );
   }

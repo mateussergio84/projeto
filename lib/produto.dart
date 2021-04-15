@@ -9,6 +9,7 @@ class Produto {
   String vencimento;
   String data;
   num total;
+  String quant;
 
   Produto(
       {this.id,
@@ -20,7 +21,8 @@ class Produto {
       this.maximo,
       this.vencimento,
       this.data,
-      this.total});
+      this.total,
+      this.quant});
 
   Produto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,6 +35,7 @@ class Produto {
     vencimento = json['vencimento'];
     data = json['data'];
     total = json['total'];
+    quant = json['quant'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +50,7 @@ class Produto {
     data['vencimento'] = this.vencimento;
     data['data'] = this.data;
     data['total'] = this.total;
+    data['quant'] = this.quant;
     return data;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/compras.dart';
 import 'package:flutter_application_1/lista.dart';
 import 'package:flutter_application_1/vencidos.dart';
 
@@ -20,7 +21,7 @@ class _listState extends State<list>
   void initState() {
     super.initState();
 
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -34,6 +35,7 @@ class _listState extends State<list>
       Tab(text: "Vencidos", icon: Icon(Icons.list)),
       Tab(text: "Falta", icon: Icon(Icons.list_alt)),
       Tab(text: "Excede", icon: Icon(Icons.list_alt_outlined)),
+      Tab(text: "Compras", icon: Icon(Icons.list_alt)),
     ]);
   }
 
@@ -42,6 +44,7 @@ class _listState extends State<list>
       new vencidos(),
       new falta(),
       new maximo(),
+      new compras(),
     ]);
   }
 
