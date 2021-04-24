@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/produto.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Gasto.dart';
-import 'api.dart';
+import 'package:http/http.dart' as http;
 
 
 class gastos_mes extends StatefulWidget {
@@ -13,38 +14,44 @@ class gastos_mes extends StatefulWidget {
 class _gastos_mesState extends State {
 var produtos = new List<Produto>();
   var gasto = List<Gasto>();
-  num total = 0;
 
-
- _getProdutos() {
-    APIM.getTotal().then((response) {
+   Future<void> select() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final ID = prefs.getString('ID') ?? '';
+    var url="http://192.168.1.109/PHP/Gastos.php/?op=1&id="+ID;
+    var res = await http.post(url);
+    if (res.statusCode == 200) {
       setState(() {
-        Iterable list = json.decode(response.body);
+        Iterable list = json.decode(res.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
       });
-    });
+    }else {
+      throw Exception('Error');
+    }
   }
 
-  _getGastos() {
-    APIGm.getGastos().then((response) {
+  Future<void> select2() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final ID = prefs.getString('ID') ?? '';
+    var url="http://192.168.1.109/PHP/Gastos.php/?op=4&id="+ID;
+    var res = await http.post(url);
+    if (res.statusCode == 200) {
       setState(() {
-        Iterable list = json.decode(response.body);
+        Iterable list = json.decode(res.body);
         gasto = list.map((model) => Gasto.fromJson(model)).toList();
       });
-    });
+    }else {
+      throw Exception('Error');
+    }
   }
 
   initState() {
     super.initState();
-    _getProdutos();
-    _getGastos();
+    select();
+    select2();
   }
 
-  dispose() {
-    super.dispose();
-  }
-
-
+  
   @override
   build(context) {
     return Column(
@@ -73,7 +80,7 @@ var produtos = new List<Produto>();
         Expanded(child:
         ListView.builder(
           itemCount: gasto.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (context, index){
             return 
             Text("Gastos R\$"+gasto[index].total.toString()+
                   " em "+gasto[index].itens.toString()+" itens",

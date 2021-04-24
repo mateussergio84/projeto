@@ -13,7 +13,7 @@ import 'menu.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: menu(),
+    home: login(),
   ));
 }
 

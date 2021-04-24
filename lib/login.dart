@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/menu.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'cadUsuario.dart';
 
@@ -43,10 +45,21 @@ class _loginState extends State<login> {
             error = false;
             showprogress = false;
           });
+           String id = jsondata["id"];
+          // print(id);
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('ID', id);
+            final ID = prefs.getString('ID') ?? '';
+            print("shared"+ID);
+
+
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>menu() ),
-          );
+                      context,
+                      MaterialPageRoute(builder: (context) =>menu() ),
+                );
+
+
           _email.text = "";
           _senha.text = "";
           //mudar tela
@@ -242,5 +255,4 @@ class _loginState extends State<login> {
       ]),
     );
   }
-
 }

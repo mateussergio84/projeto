@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/menu.dart';
-import 'api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 import 'produto.dart';
 
 
@@ -18,31 +17,33 @@ class _listaState extends State {
   var produtos = new List<Produto>();
   var i;
 
-  _getProdutos() {
-    API.getProdutos().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        produtos = list.map((model) => Produto.fromJson(model)).toList();
 
+  Future<void> select() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final ID = prefs.getString('ID') ?? '';
+    var url="http://192.168.1.109/PHP/Select.php/?op=1&id="+ID;
+    var res = await http.post(url);
+    if (res.statusCode == 200) {
+      setState(() {
+        Iterable list = json.decode(res.body);
+        produtos = list.map((model) => Produto.fromJson(model)).toList();
       });
-    });
+    }else {
+      throw Exception('Error');
+    }
   }
 
   initState() {
     super.initState();
-    _getProdutos();
-  }
-  dispose() {
-    super.dispose();
+    select();
   }
 
 
   void _detalhes(Produto produto) {
-    _getProdutos();
+    select();
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        _getProdutos();
         return AlertDialog(
           title: Text("Detalhes",
           ),
@@ -75,10 +76,13 @@ class _listaState extends State {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
+                    child: Text('Maximo: '+produto.minimo.toString()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
                     child: Text('Vencimento: '+produto.vencimento.toString()),
                   ),
                 ],
-
             )
           ),
          ),
@@ -110,8 +114,6 @@ class _listaState extends State {
 
         Future<void> update() async {
           String phpurl = "http://192.168.1.109/PHP/update.php";
-
-
           var res = await http.post(phpurl, body: {
             "id": produto.id.toString(),
             "quantidade": txtQuantidade.text,
@@ -123,19 +125,6 @@ class _listaState extends State {
         }
 
 
-        Future edit() async {
-          return await http.post(
-            "http://192.168.1.109/PHP/update.php",
-            body: {
-              "id": produto.id.toString(),
-              "quantidade": txtQuantidade.text,
-              "preco": txtPreco.text,
-              "minimo": txtMinimo.text,
-              "maximo": txtMaximo.text,
-              "vencimento": txtValidade.text,
-            },
-          );
-        }
         return AlertDialog(
           title: Text(produto.nome,
           ),
@@ -213,7 +202,7 @@ class _listaState extends State {
             }, child: Text('Cancelar')),
             FlatButton(onPressed: (){
               update();
-              _getProdutos();
+              select();
               //Navigator.of(context).pop();
               Navigator.push(
                 context,
@@ -253,7 +242,7 @@ class _listaState extends State {
                   var url="http://192.168.1.109/PHP/t1.php/";
                      http.post(url, body: {
                         'id': produtos[index].id.toString(),});
-                           _getProdutos();
+                           select();
                          });
                 Scaffold
                     .of(context)
@@ -282,7 +271,7 @@ class _listaState extends State {
                   onTap: (){
                   i = produtos[index];
                   _detalhes(produtos[index]);
-                  _getProdutos();
+                  select();
                   },
 
               )

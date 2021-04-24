@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_application_1/produto.dart';
-import 'api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class vencidos extends StatefulWidget {
@@ -14,27 +13,27 @@ class _vencidosState extends State {
 
   var produtos = new List<Produto>();
 
-  List data;
 
-  var index;
-
-
-  _getProdutos() {
-    API2.getVencidos().then((response) {
+  Future<void> select() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final ID = prefs.getString('ID') ?? '';
+    var url="http://192.168.1.109/PHP/Select.php/?op=2&id="+ID;
+    var res = await http.post(url);
+    if (res.statusCode == 200) {
       setState(() {
-        Iterable list = json.decode(response.body);
+        Iterable list = json.decode(res.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
       });
-    });
+    }else {
+      throw Exception('Error');
+    }
   }
 
   initState() {
     super.initState();
-    _getProdutos();
+    select();
   }
-  dispose() {
-    super.dispose();
-  }
+ 
 
 
   @override
@@ -52,10 +51,10 @@ class _vencidosState extends State {
                     key: UniqueKey(),
                     onDismissed: (direction) {
                       setState(() {
-                        var url="http://192.168.1.109/PHP/zerar.php";
+                        var url="http://192.168.1.109/PHP/t1.php";
                         http.post(url, body: {
                           'id': produtos[index].id.toString(),});
-                        _getProdutos();
+                          select();
                       });
                       Scaffold
                           .of(context)

@@ -5,8 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/produto.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
-
-import 'api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class busca extends StatefulWidget {
  @override
@@ -70,9 +69,14 @@ class _buscaState extends State<busca> {
   }
 
   Future<void> delete() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final ID = prefs.getString('ID') ?? '';
+    String cod = txtCod.toString();
     var url="http://192.168.1.109/PHP/teste2.php/";
     var res = await http.post(url, body: {
-      'cod': txtCod.text,},
+      'cod': txtCod.text,
+      'id' : ID,
+      },
     );
     if (res.statusCode == 200) {
       print(res.body);
@@ -85,18 +89,28 @@ class _buscaState extends State<busca> {
     }
   }
 
-    _getProdutos() {
-    API.getProdutos().then((response) {
+
+
+  Future<void> select() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final ID = prefs.getString('ID') ?? '';
+    var url="http://192.168.1.109/PHP/Select.php/?op=1&id="+ID;
+    var res = await http.post(url);
+    if (res.statusCode == 200) {
       setState(() {
-        Iterable list = json.decode(response.body);
+        Iterable list = json.decode(res.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
       });
-    });
+    }else {
+      throw Exception('Error');
+    }
   }
-  
+
+
   initState() {
     super.initState();
-    _getProdutos();
+    select();
+    //_getProdutos();
     //fetchPost();
    // delete();
   }
@@ -115,7 +129,7 @@ class _buscaState extends State<busca> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
+              child: TextFormField(
                 onChanged: (value) {         
                 },
                 controller: txtCod,
@@ -124,7 +138,10 @@ class _buscaState extends State<busca> {
                     hintText: "Search",
                     prefixIcon: IconButton(icon: Icon(Icons.search_sharp),
                     onPressed: (){
-                      delete();
+                      if(txtCod != null){
+                        delete();
+                      }
+                      //select();
                     },
                     ),
                     suffixIcon: IconButton(
