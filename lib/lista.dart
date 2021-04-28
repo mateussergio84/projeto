@@ -15,7 +15,6 @@ class lista extends StatefulWidget {
 class _listaState extends State {
 
   var produtos = new List<Produto>();
-  var i;
 
 
   Future<void> select() async {
@@ -76,7 +75,7 @@ class _listaState extends State {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text('Maximo: '+produto.minimo.toString()),
+                    child: Text('Maximo: '+produto.maximo.toString()),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -88,7 +87,7 @@ class _listaState extends State {
          ),
           actions: <Widget>[
             FlatButton(onPressed: (){
-              _editar(i);
+              _editar(produto);
             }, child: Text('Editar')),
             FlatButton(onPressed: (){
               Navigator.of(context).pop();
@@ -105,7 +104,6 @@ class _listaState extends State {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-
         TextEditingController txtQuantidade = TextEditingController(text: produto.quantidade.toString());
         TextEditingController txtPreco = TextEditingController(text: produto.preco.toString());
         TextEditingController txtMinimo = TextEditingController(text: produto.minimo.toString());
@@ -123,7 +121,6 @@ class _listaState extends State {
             "vencimento": txtValidade.text,
           });
         }
-
 
         return AlertDialog(
           title: Text(produto.nome,
@@ -209,7 +206,7 @@ class _listaState extends State {
                 MaterialPageRoute(builder: (context) =>menu() ),
               );
 
-            }, child: Text('Salvar')),
+            }, child: Text('Salvar',)),
                     ],
                   ),
                 ),
@@ -239,7 +236,7 @@ class _listaState extends State {
               key: UniqueKey(),
               onDismissed: (direction) {
                 setState(() {
-                  var url="http://192.168.1.109/PHP/t1.php/";
+                  var url="http://192.168.1.109/PHP/delete.php/";
                      http.post(url, body: {
                         'id': produtos[index].id.toString(),});
                            select();
@@ -269,7 +266,6 @@ class _listaState extends State {
               textAlign: TextAlign.center,
               ),
                   onTap: (){
-                  i = produtos[index];
                   _detalhes(produtos[index]);
                   select();
                   },

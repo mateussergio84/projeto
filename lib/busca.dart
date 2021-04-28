@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/menu.dart';
 import 'package:flutter_application_1/produto.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
@@ -45,9 +46,6 @@ class _buscaState extends State<busca> {
       barcodeScanRes = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -59,16 +57,13 @@ class _buscaState extends State<busca> {
     final response = await http.get("http://192.168.1.109:80/PHP/teste2.php/?cod="+txtCod.toString());
 
     if (response.statusCode == 200) {
-      // se o servidor retornar um response OK, vamos fazer o parse no JSON
      return Produto.fromJson(json.decode(response.body));
-      //Iterable list = json.decode(response.body);
-      //produtos = list.map((model) => Produto.fromJson(model)).toList();
     } else {
       throw Exception('Failed to load post');
     }
   }
 
-  Future<void> delete() async {
+  Future<void> buscaProduto() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final ID = prefs.getString('ID') ?? '';
     String cod = txtCod.toString();
@@ -89,6 +84,189 @@ class _buscaState extends State<busca> {
     }
   }
 
+  void _detalhes(Produto produto) {
+    select();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Detalhes",
+          ),
+
+          content: Container(
+            child: (
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text('Produto: '+produto.nome)
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text('Codigo: '+produto.cod.toString())
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text('Quatidade: '+produto.quantidade.toString())
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('Preço '+produto.preco.toString()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('MInimo: '+produto.minimo.toString()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('Maximo: '+produto.maximo.toString()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('Vencimento: '+produto.vencimento.toString()),
+                    ),
+                  ],
+                )
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(onPressed: (){
+              _editar(produto);
+            }, child: Text('Editar')),
+            FlatButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('Voltar')),
+          ],
+        );
+      },
+    );
+  }
+
+
+
+  void _editar(Produto produto) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+
+        TextEditingController txtQuantidade = TextEditingController(text: produto.quantidade.toString());
+        TextEditingController txtPreco = TextEditingController(text: produto.preco.toString());
+        TextEditingController txtMinimo = TextEditingController(text: produto.minimo.toString());
+        TextEditingController txtMaximo = TextEditingController(text: produto.maximo.toString());
+        TextEditingController txtValidade = TextEditingController(text: produto.vencimento.toString());
+
+        Future<void> update() async {
+          String phpurl = "http://192.168.1.109/PHP/update.php";
+          var res = await http.post(phpurl, body: {
+            "id": produto.id.toString(),
+            "quantidade": txtQuantidade.text,
+            "preco": txtPreco.text,
+            "minimo": txtMinimo.text,
+            "maximo": txtMaximo.text,
+            "vencimento": txtValidade.text,
+          });
+        }
+
+        return AlertDialog(
+          title: Text(produto.nome,
+          ),
+          content: SingleChildScrollView(
+            child: Container(
+                child: (
+                    Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              padding: const EdgeInsets.all(10),
+                              child: TextField(
+                                controller: txtQuantidade,
+                                decoration: InputDecoration(
+                                  labelText:"Quantidade:",
+                                  border: OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.number,
+                              )
+                          ),
+                          Container(
+                              padding: const EdgeInsets.all(10),
+                              child: TextField(
+                                controller: txtPreco,
+                                decoration: InputDecoration(
+                                  labelText:"Preço:",
+                                  border: OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.number,
+                              )
+                          ),
+
+                          Container(
+                              padding: const EdgeInsets.all(10),
+                              child: TextField(
+                                controller: txtMinimo,
+                                decoration: InputDecoration(
+                                  labelText:"Minimo:",
+                                  border: OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.number,
+                              )
+                          ),
+
+                          Container(
+                              padding: const EdgeInsets.all(10),
+                              child: TextField(
+                                controller: txtMaximo,
+                                decoration: InputDecoration(
+                                  labelText:"Maximo:",
+                                  border: OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.number,
+                              )
+                          ),
+
+                          Container(
+                              padding: const EdgeInsets.all(10),
+                              child: TextField(
+                                controller: txtValidade,
+                                decoration: InputDecoration(
+                                  labelText:"Vencimento:",
+                                  border: OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.datetime,
+                              )
+                          ),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                FlatButton(onPressed: (){
+                                  Navigator.of(context).pop();
+                                }, child: Text('Cancelar')),
+                                FlatButton(onPressed: (){
+                                  update();
+                                  select();
+                                  //Navigator.of(context).pop();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) =>menu() ),
+                                  );
+
+                                }, child: Text('Salvar')),
+                              ],
+                            ),
+                          ),
+                        ]
+                    )
+                )
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 
 
   Future<void> select() async {
@@ -106,13 +284,25 @@ class _buscaState extends State<busca> {
     }
   }
 
+  Future<void> buscaNome() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final ID = prefs.getString('ID') ?? '';
+    var url="http://192.168.1.109/PHP/busca2.php/?prod="+txtCod.text+"&id="+ID;
+    var res = await http.post(url);
+    if (res.statusCode == 200) {
+      setState(() {
+        Iterable list = json.decode(res.body);
+        produtos = list.map((model) => Produto.fromJson(model)).toList();
+      });
+    }else {
+      throw Exception('Error');
+    }
+  }
+
 
   initState() {
     super.initState();
     select();
-    //_getProdutos();
-    //fetchPost();
-   // delete();
   }
   dispose() {
     super.dispose();
@@ -123,7 +313,9 @@ class _buscaState extends State<busca> {
   @override
   build(context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pesquisa"),),
+      appBar: AppBar(title: Text("Pesquisa"),
+        automaticallyImplyLeading: false,
+      ),
            body: Container(
         child: Column(
           children: <Widget>[
@@ -139,7 +331,8 @@ class _buscaState extends State<busca> {
                     prefixIcon: IconButton(icon: Icon(Icons.search_sharp),
                     onPressed: (){
                       if(txtCod != null){
-                        delete();
+                        //buscaProduto();
+                        buscaNome();
                       }
                       //select();
                     },
@@ -150,7 +343,7 @@ class _buscaState extends State<busca> {
                           ),
                     onPressed: (){
                       scanBarcodeNormal();
-                    },
+                      },
                     ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
@@ -160,7 +353,33 @@ class _buscaState extends State<busca> {
               child: ListView.builder(
                 itemCount: produtos.length,
                 itemBuilder: (context, index) {
-                  return Card(
+                  return Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      setState(() {
+                        var url="http://192.168.1.109/PHP/delete.php/";
+                        http.post(url, body: {
+                          'id': produtos[index].id.toString(),});
+                        select();
+                      });
+                      Scaffold
+                          .of(context)
+                          .showSnackBar(
+                        SnackBar(
+                          content:
+                          Text(
+                              produtos[index].nome.toString()+" foi excluido"),
+                        ),
+                      );
+                    },
+                    background: Container(
+                      color: Colors.red,
+                      child: Align(
+                        alignment: Alignment(-0.9, 0),
+                        child: Icon(Icons.delete, color: Colors.white),
+                      ),
+                    ),
+                  child: Card(
                       child:ListTile(title: Text(produtos[index].nome,
                         textAlign: TextAlign.center,
                       ),
@@ -168,9 +387,10 @@ class _buscaState extends State<busca> {
                           //textAlign: TextAlign.center,
                         //),
                         onTap: (){
+                        _detalhes(produtos[index]);
                         },
                       ),
-                  );
+                  ));
                 },
               ),
             ),

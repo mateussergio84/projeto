@@ -47,7 +47,7 @@ class _maximoState extends State {
                   textAlign: TextAlign.center
                   ,
                 ),
-                  subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Maximo: "+produtos[index].maximo.toString(),
+                  subtitle: Text("Quantidade: " +produtos[index].quant.toString() +"  Maximo: "+produtos[index].maximo.toString(),
                     textAlign: TextAlign.center,
                   ),
                 )

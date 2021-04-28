@@ -44,10 +44,6 @@ class _comprasState extends State {
   build(context) {
     return Scaffold(
       body:
-      Column(
-        children: <Widget>[
-          Expanded(
-            child:
             ListView.builder(
               itemCount: produtos.length,
               itemBuilder: (context, index) {
@@ -55,9 +51,9 @@ class _comprasState extends State {
                     key: UniqueKey(),
                     onDismissed: (direction) {
                       setState(() {
-                        var url="http://192.168.1.109/PHP/zerar.php";
+                        var url="http://192.168.1.109/PHP/deleteCompras.php";
                         http.post(url, body: {
-                          'id': produtos[index].id.toString(),});
+                          'cod': produtos[index].cod.toString(),});
                           select();
                       });
                       Scaffold
@@ -85,17 +81,6 @@ class _comprasState extends State {
                     ));
               },
             ),
-            flex: 12,
-          ),
-          Expanded(child: RaisedButton(onPressed: (){
-            var url = "http://localhost/PHP/del.php";
-            http.get(url);
-            }, child: Text('Zerar lista'),
-            color: Colors.blueAccent,
-            colorBrightness: Brightness.dark,
-            ),
-            )
-        ],),
-    );
+        );
   }
 }
