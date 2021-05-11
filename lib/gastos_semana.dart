@@ -87,7 +87,7 @@ class _gastos_semanaState extends State {
           itemCount: gasto.length,
           itemBuilder: (context, index) {
             return 
-            Text("Gastos R\$"+gasto[index].total.toString()+
+            Text("Gastos R\$"+gasto[index].total.toStringAsFixed(2)+
                   " em "+gasto[index].itens.toString()+" itens",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   textAlign: TextAlign.center,

@@ -24,7 +24,6 @@ class _loginState extends State<login> {
 
   startLogin() async {
     String apiurl = "http://192.168.1.109/PHP/login.php";
-    print(email);
 
     var response = await http.post(apiurl, body: {
       'email': email,
@@ -46,8 +45,6 @@ class _loginState extends State<login> {
             showprogress = false;
           });
            String id = jsondata["id"];
-          // print(id);
-
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('ID', id);
             final ID = prefs.getString('ID') ?? '';

@@ -90,7 +90,7 @@ class _faltaState extends State {
                   ,
                 ),
                   //mudar quantidade para quant
-                  subtitle: Text("Quantidade: " +produtos[index].quantidade.toString() +"  Desejavel: "+produtos[index].minimo.toString(),
+                  subtitle: Text("Quantidade: " +produtos[index].quant.toString() +"  Desejavel: "+produtos[index].minimo.toString(),
                     textAlign: TextAlign.center,
                   ),
                     trailing:

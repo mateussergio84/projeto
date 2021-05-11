@@ -17,7 +17,7 @@ class _maximoState extends State {
   Future<void> select() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final ID = prefs.getString('ID') ?? '';
-    var url="http://192.168.1.109/PHP/Select.php/?op=3&id="+ID;
+    var url="http://192.168.1.109/PHP/Select.php/?op=4&id="+ID;
     var res = await http.post(url);
     if (res.statusCode == 200) {
       setState(() {

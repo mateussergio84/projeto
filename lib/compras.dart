@@ -54,7 +54,7 @@ class _comprasState extends State {
                         var url="http://192.168.1.109/PHP/deleteCompras.php";
                         http.post(url, body: {
                           'cod': produtos[index].cod.toString(),});
-                          select();
+                        select();
                       });
                       Scaffold
                           .of(context)

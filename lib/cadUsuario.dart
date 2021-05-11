@@ -70,7 +70,7 @@ class _cadUsuarioState extends State<cadUsuario>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title:Text("Estoque - Cadastro"),
+          title:Text("Cadastro"),
           backgroundColor:Colors.blue[400]
       ), 
 

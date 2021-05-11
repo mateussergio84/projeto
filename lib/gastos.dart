@@ -28,7 +28,8 @@ class _gastosState extends State {
       setState(() {
         Iterable list = json.decode(res.body);
         produtos = list.map((model) => Produto.fromJson(model)).toList();
-      });
+        }
+      );
     }else {
       throw Exception('Error');
     }
@@ -85,7 +86,7 @@ class _gastosState extends State {
           itemCount: gasto.length,
           itemBuilder: (context, index) {
             return 
-            Text("Gastos R\$"+gasto[index].total.toString()+
+            Text("Gastos R\$"+gasto[index].total.toStringAsFixed(2)+
                   " em "+gasto[index].itens.toString()+" itens",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   textAlign: TextAlign.center,

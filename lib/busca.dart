@@ -22,30 +22,26 @@ class _buscaState extends State<busca> {
   TextEditingController txtCod = TextEditingController();
 
 
-    Future<void> scanBarcodeNormal() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    Future<void> scanBarcode() async {
     try {
        barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
-
-      print(barcodeScanRes);
       var url="http://192.168.1.109/PHP/teste2.php/";
-    var res = await http.post(url, body: {
-      'cod': barcodeScanRes,},
-    );
-    if (res.statusCode == 200) {
-      print(res.body);
-      setState(() {
-        Iterable list = json.decode(res.body);
-        produtos = list.map((model) => Produto.fromJson(model)).toList();
-      });
-    }else {
-      throw Exception('Error');
-    }
+      var res = await http.post(url, body: {
+        'cod': barcodeScanRes,},
+      );
+      if (res.statusCode == 200) {
+        print(res.body);
+        setState(() {
+          Iterable list = json.decode(res.body);
+          produtos = list.map((model) => Produto.fromJson(model)).toList();
+        });
+      }else {
+        throw Exception('Error');
+      }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
-
     if (!mounted) return;
 
     setState(() {
@@ -308,12 +304,10 @@ class _buscaState extends State<busca> {
     super.dispose();
   }
 
-
-
   @override
   build(context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pesquisa"),
+      appBar: AppBar(title: Text("Busca"),
         automaticallyImplyLeading: false,
       ),
            body: Container(
@@ -342,7 +336,7 @@ class _buscaState extends State<busca> {
                             'assets/icon.png',
                           ),
                     onPressed: (){
-                      scanBarcodeNormal();
+                      scanBarcode();
                       },
                     ),
                     border: OutlineInputBorder(

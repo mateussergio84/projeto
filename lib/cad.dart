@@ -104,7 +104,6 @@ class _cadState extends State<cad>{
 
 
   Future<void> scanBarcodeNormal() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
@@ -218,7 +217,7 @@ class _cadState extends State<cad>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text("Estoque - Cadastro"),
+        title:Text("Cadastro"),
         backgroundColor:Colors.blue[400],
         automaticallyImplyLeading: false,
       ),
