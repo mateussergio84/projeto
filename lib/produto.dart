@@ -7,7 +7,7 @@ class Produto {
   int minimo;
   int maximo;
   String vencimento;
-  String data;
+  String data_insercao;
   num total;
   String quant;
 
@@ -20,7 +20,7 @@ class Produto {
       this.minimo,
       this.maximo,
       this.vencimento,
-      this.data,
+      this.data_insercao,
       this.total,
       this.quant});
 
@@ -33,7 +33,7 @@ class Produto {
     minimo = json['minimo'];
     maximo = json['maximo'];
     vencimento = json['vencimento'];
-    data = json['data'];
+    data_insercao = json['data_insercao'];
     total = json['total'];
     quant = json['quant'];
   }
@@ -48,7 +48,7 @@ class Produto {
     data['minimo'] = this.minimo;
     data['maximo'] = this.maximo;
     data['vencimento'] = this.vencimento;
-    data['data'] = this.data;
+    data['data_insercao'] = this.data_insercao;
     data['total'] = this.total;
     data['quant'] = this.quant;
     return data;

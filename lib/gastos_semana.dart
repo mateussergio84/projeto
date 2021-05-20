@@ -30,7 +30,7 @@ class _gastos_semanaState extends State {
       throw Exception('Error');
     }
   }
-    
+
 
   Future<void> select2() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -52,8 +52,6 @@ class _gastos_semanaState extends State {
     select();
     select2();
   }
-
-
 
 
   @override
@@ -83,11 +81,12 @@ class _gastos_semanaState extends State {
 
 
         Expanded(child:
-        ListView.builder(
-          itemCount: gasto.length,
+        //ListView.builder(
+        gasto.isEmpty? (Text("Empty")) : ListView.builder(
+        itemCount: gasto.length,
           itemBuilder: (context, index) {
-            return 
-            Text("Gastos R\$"+gasto[index].total.toStringAsFixed(2)+
+            return
+            Text("Gastos R\$"+gasto[index].total.toString()+
                   " em "+gasto[index].itens.toString()+" itens",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   textAlign: TextAlign.center,
