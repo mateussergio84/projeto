@@ -14,8 +14,10 @@ class _cadUsuarioState extends State<cadUsuario>{
     TextEditingController txtNome = TextEditingController();
     TextEditingController txtEmail = TextEditingController();
     TextEditingController txtSenha = TextEditingController();
+    TextEditingController txtUser = TextEditingController();
 
-  bool error, sending, success;
+
+    bool error, sending, success;
   String msg;
 
   String phpurl = "http://192.168.1.109/PHP/addUsuario.php";
@@ -35,6 +37,7 @@ class _cadUsuarioState extends State<cadUsuario>{
       "nome": txtNome.text,
       "email": txtEmail.text,
       "senha": txtSenha.text,
+      "user": txtUser.text,
     }); 
 
     if (res.statusCode == 200) {
@@ -50,6 +53,7 @@ class _cadUsuarioState extends State<cadUsuario>{
         txtNome.text = "";
         txtEmail.text = "";
         txtSenha.text = "";
+        txtUser.text = "";
         setState(() {
           sending = false;
           success = true;
@@ -87,8 +91,7 @@ class _cadUsuarioState extends State<cadUsuario>{
                         border: OutlineInputBorder(),
                       ),
                     )
-                ), 
-
+                ),
                 Container(
                   padding: const EdgeInsets.all(18),
                     child: TextField(
@@ -98,7 +101,17 @@ class _cadUsuarioState extends State<cadUsuario>{
                         border: OutlineInputBorder(),
                       ),
                     )
-                ), 
+                ),
+                Container(
+                    padding: const EdgeInsets.all(18),
+                    child: TextField(
+                      controller: txtUser,
+                      decoration: InputDecoration(
+                        labelText:"Login:",
+                        border: OutlineInputBorder(),
+                      ),
+                    )
+                ),
 
                 Container(
                   padding: const EdgeInsets.all(18),
