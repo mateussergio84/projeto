@@ -104,6 +104,7 @@ class _listaState extends State {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        TextEditingController txtNome = TextEditingController(text: produto.nome);
         TextEditingController txtQuantidade = TextEditingController(text: produto.quantidade.toString());
         TextEditingController txtPreco = TextEditingController(text: produto.preco.toString());
         TextEditingController txtMinimo = TextEditingController(text: produto.minimo.toString());
@@ -114,6 +115,7 @@ class _listaState extends State {
           String phpurl = "http://192.168.1.109/PHP/update.php";
           var res = await http.post(phpurl, body: {
             "id": produto.id.toString(),
+            "nome": txtNome.text,
             "quantidade": txtQuantidade.text,
             "preco": txtPreco.text,
             "minimo": txtMinimo.text,
@@ -132,6 +134,17 @@ class _listaState extends State {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    Container(
+                        padding: const EdgeInsets.all(10),
+                        child: TextField(
+                          controller: txtNome,
+                          decoration: InputDecoration(
+                            labelText:"Produto:",
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.number,
+                        )
+                    ),
                     Container(
                     padding: const EdgeInsets.all(10),
                     child: TextField(
