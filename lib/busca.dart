@@ -27,8 +27,12 @@ class _buscaState extends State<busca> {
        barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
       var url="http://192.168.1.109/PHP/teste2.php/";
+       SharedPreferences prefs = await SharedPreferences.getInstance();
+       final ID = prefs.getString('ID') ?? '';
       var res = await http.post(url, body: {
-        'cod': barcodeScanRes,},
+        'cod': barcodeScanRes,
+        'id': ID,
+        },
       );
       if (res.statusCode == 200) {
         print(res.body);

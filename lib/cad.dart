@@ -85,7 +85,6 @@ class _cadState extends State<cad>{
             }else{
               //txtNome = TextEditingController(text: 'não encontrado');
             }
-
             print(descricao);
           } else {
             throw Exception('Erro');
@@ -113,20 +112,19 @@ class _cadState extends State<cad>{
       var url="http://192.168.1.109/PHP/selectCad.php/?cod="+barcodeScanRes+"&id="+ID;
       var res = await http.post(url);
       if (res.statusCode == 200) {
-          Iterable list = json.decode(res.body);
-          if(list.isNotEmpty){
-            var produto = list.map((model) => Produto.fromJson(model)).toList();
-            setState(() {
-              txtCod = TextEditingController(text: barcodeScanRes);
-              txtNome = TextEditingController(text: produto[0].nome);
-              txtPreco = TextEditingController(text: produto[0].preco.toString());
-              txtMinimo = TextEditingController(text: produto[0].minimo.toString());
-              txtMaximo = TextEditingController(text: produto[0].maximo.toString());
-              txtValidade = TextEditingController(text: produto[0].vencimento);
-            });
-          }else{
-            fetchProduto();
-          }
+        Iterable list = json.decode(res.body);
+        if(list.isNotEmpty){
+          var produto = list.map((model) => Produto.fromJson(model)).toList();
+          setState(() {
+            txtCod = TextEditingController(text: barcodeScanRes);
+            txtNome = TextEditingController(text: produto[0].nome);
+            txtPreco = TextEditingController(text: produto[0].preco.toString());
+            txtMinimo = TextEditingController(text: produto[0].minimo.toString());
+            txtMaximo = TextEditingController(text: produto[0].maximo.toString());
+          });
+        }else{
+          fetchProduto();
+        }
       }else {
         throw Exception('Error');
       }
@@ -144,17 +142,17 @@ class _cadState extends State<cad>{
 
   Future <void> fetchProduto() async {
     final response = await http.get('https://barcode.monster/api/'+barcodeScanRes);
-      if (response.statusCode == 200) {
-        var produtos = pesquisa.fromJson(jsonDecode(response.body));
-        String descricao = produtos.description.toString();
-        if(descricao.length >=23){
-          descricao = descricao.substring(0, descricao.length - 23);
-          setState(() {
-            txtNome = TextEditingController(text: descricao);
-            txtCod = TextEditingController(text: _scanBarcode);
-          });
-        }
+    if (response.statusCode == 200) {
+      var produtos = pesquisa.fromJson(jsonDecode(response.body));
+      String descricao = produtos.description.toString();
+      if(descricao.length >=23){
+        descricao = descricao.substring(0, descricao.length - 23);
+        setState(() {
+          txtNome = TextEditingController(text: descricao);
+          txtCod = TextEditingController(text: _scanBarcode);
+        });
       }
+    }
   }
 
 
